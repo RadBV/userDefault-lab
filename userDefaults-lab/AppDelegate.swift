@@ -12,10 +12,29 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+        if launchedBefore  {
+            print("Not first launch.")
+        } else {
+            print("First launch, setting UserDefault.")
+            UserDefaults.standard.set(true, forKey: "launchedBefore")
+        }
+        
+        let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+        
+        let rootViewController:UIViewController =
+            storyboard.instantiateViewController(withIdentifier: "VC") as UIViewController
+        
+        navigationController.viewControllers = [rootViewController]
+        
+        self.window?.rootViewController = navigationController
+        
         return true
     }
 
